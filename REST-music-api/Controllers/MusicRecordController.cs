@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace REST_music_api.Controllers
 {
+    [Route("api/controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class MusicRecordController : ControllerBase
     {
         private static readonly string[] Summaries =
         [
