@@ -7,7 +7,61 @@ namespace REST_music_api.Repository
     {
         private static int _nextInt = 1;
 
-        private static readonly List<MusicRecord> _records = new List<MusicRecord>();
+        private static readonly List<MusicRecord> _records = new List<MusicRecord>
+        {
+            new MusicRecord
+            {
+                Id = _nextInt++,
+                Title = "Blinding Lights",
+                Artist = "The Weeknd",
+                Duration = 3,
+                PublicationYear = 2019
+            },
+            new MusicRecord
+            {
+                Id = _nextInt++,
+                Title = "Levitating",
+                Artist = "Dua Lipa",
+                Duration = 3,
+                PublicationYear = 2020
+            },
+            new MusicRecord
+            {
+                Id = _nextInt++,
+                Title = "Levitating",
+                Artist = "Dua Lipa",
+                Duration = 3,
+                PublicationYear = 2020
+            },
+            new MusicRecord
+            {
+                Id = _nextInt++,
+                Title = "Shape of You",
+                Artist = "Ed Sheeran",
+                Duration = 3,
+                PublicationYear = 2017
+            },
+            new MusicRecord
+            {
+                Id = _nextInt++,
+                Title = "Bad Guy",
+                Artist = "Billie Eilish",
+                Duration = 3,
+                PublicationYear = 2019
+            },
+            new MusicRecord
+            {
+                Id = _nextInt++,
+                Title = "As It Was",
+                Artist = "Harry Styles",
+                Duration = 2,
+                PublicationYear = 2022
+            }
+        };
+
+        public MusicRecordRepository()
+        {
+        }
 
         public List<MusicRecord> GetAll(string title)
         {
