@@ -3,11 +3,13 @@ using REST_music_api.Repository;
 namespace MusicRecordTest
 {
     [TestClass]
-    public sealed class Test1
+    public class MusicRecordRepositoryTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void GetAll_ReturnsAllRecords_WhenTitleIsNull()
         {
+            var repo = new MusicRecordRepository();
+            Assert.AreEqual(6, repo.GetAll(null).Count());
         }
     }
 }
