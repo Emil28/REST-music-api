@@ -63,13 +63,15 @@ namespace REST_music_api.Repository
         {
         }
 
-        public List<MusicRecord> GetAll(string title)
+        public List<MusicRecord> GetAll(string title = null, string sortBy = null)
         {
-            if (string.IsNullOrEmpty(title))
+            List<MusicRecord> recordsCopy = new(_records);
+            if (!string.IsNullOrEmpty(title))
             {
-                return _records;
+                recordsCopy = _records.Where(r => r.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-            return _records.Where(r => r.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+            if ()
+                return _records.Where(r => r.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
         }
 
         public MusicRecord? GetById(int id)
