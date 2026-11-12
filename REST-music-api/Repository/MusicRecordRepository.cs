@@ -70,8 +70,28 @@ namespace REST_music_api.Repository
             {
                 recordsCopy = _records.Where(r => r.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-            if ()
-                return _records.Where(r => r.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy.ToLower())
+                {
+                    case "id":
+                        recordsCopy = recordsCopy.OrderBy(r => r.Id).ToList();
+                        break;
+                    case "title":
+                        recordsCopy = recordsCopy.OrderBy(r => r.Title).ToList();
+                        break;
+                    case "artist":
+                        recordsCopy = recordsCopy.OrderBy(r => r.Artist).ToList();
+                        break;
+                    case "duration":
+                        recordsCopy = recordsCopy.OrderBy(r => r.Duration).ToList();
+                        break;
+                    case "publicationyear":
+                        recordsCopy = recordsCopy.OrderBy(r => r.PublicationYear).ToList();
+                        break;
+                }
+            }
+            return recordsCopy;
         }
 
         public MusicRecord? GetById(int id)
