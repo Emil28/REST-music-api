@@ -19,9 +19,9 @@ namespace REST_music_api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IEnumerable<MusicRecord> Get([FromQuery] string title )
+        public IEnumerable<MusicRecord> Get()
         {
-            return _repo.GetAll(title);
+            return _repo.GetAll(null!);
         }
     }
     
