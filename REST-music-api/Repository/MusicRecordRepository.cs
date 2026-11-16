@@ -18,7 +18,7 @@ namespace REST_music_api.Repository
                     Id = _nextInt++,
                     Title = "Blinding Lights",
                     Artist = "The Weeknd",
-                    Duration = 3,
+                    Duration = 420,
                     PublicationYear = 2019
                 },
                 new MusicRecord
@@ -26,7 +26,7 @@ namespace REST_music_api.Repository
                     Id = _nextInt++,
                     Title = "Levitating",
                     Artist = "Dua Lipa",
-                    Duration = 3,
+                    Duration = 200,
                     PublicationYear = 2020
                 },
                 new MusicRecord
@@ -34,7 +34,7 @@ namespace REST_music_api.Repository
                     Id = _nextInt++,
                     Title = "Levitating",
                     Artist = "Dua Lipa",
-                    Duration = 3,
+                    Duration = 4724,
                     PublicationYear = 2020
                 },
                 new MusicRecord
@@ -42,7 +42,7 @@ namespace REST_music_api.Repository
                     Id = _nextInt++,
                     Title = "Shape of You",
                     Artist = "Ed Sheeran",
-                    Duration = 3,
+                    Duration = 69,
                     PublicationYear = 2017
                 },
                 new MusicRecord
@@ -50,7 +50,7 @@ namespace REST_music_api.Repository
                     Id = _nextInt++,
                     Title = "Bad Guy",
                     Artist = "Billie Eilish",
-                    Duration = 3,
+                    Duration = 194,
                     PublicationYear = 2019
                 },
                 new MusicRecord
@@ -58,7 +58,7 @@ namespace REST_music_api.Repository
                     Id = _nextInt++,
                     Title = "As It Was",
                     Artist = "Harry Styles",
-                    Duration = 2,
+                    Duration = 242,
                     PublicationYear = 2022
                 }
             };
