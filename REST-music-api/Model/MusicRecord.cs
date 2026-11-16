@@ -8,10 +8,7 @@
         public int Duration { get; set; }
         public int PublicationYear { get; set; }
 
-        public MusicRecord()
-        {
-            
-        }
+       
         public MusicRecord(string title, string artist, int duration, int publicationYear)
         {
             Title = title;
