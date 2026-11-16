@@ -36,7 +36,7 @@ namespace MusicRecordTest
             Assert.AreEqual(1, repo.GetAll(
                 title: "Blinding",
                 artist: "The Weeknd",
-                duration: 3,
+                duration: 420,
                 publicationYear: 2019).Count);
         }
 
