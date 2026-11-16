@@ -63,13 +63,46 @@ namespace REST_music_api.Repository
         {
         }
 
-        public List<MusicRecord> GetAll(string title)
+        public List<MusicRecord> GetAll(
+            string? title = null,
+            string? artist = null,
+            int? id = null,
+            int? duration = null,
+            int? publicationYear = null,
+            string? sortBy = null)
         {
-            if (string.IsNullOrEmpty(title))
+            IEnumerable<MusicRecord> records = _records;
+
+            if (!string.IsNullOrWhiteSpace(title))
             {
-                return _records;
+                records = records.Where(r => r.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
             }
-            return _records.Where(r => r.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+            if (!string.IsNullOrWhiteSpace(artist))
+            {
+                records = records.Where(r => r.Artist.Contains(artist, StringComparison.OrdinalIgnoreCase));
+            }
+            if (id.HasValue)
+            {
+                records = records.Where(r => r.Id == id.Value);
+            }
+            if (duration.HasValue)
+            {
+                records = records.Where(r => r.Duration == duration.Value);
+            }
+            if (publicationYear.HasValue)
+            {
+                records = records.Where(r => r.PublicationYear == publicationYear.Value);
+            }
+
+            return sortBy?.ToLowerInvariant() switch
+            {
+                "id" => records.OrderBy(r => r.Id).ToList(),
+                "title" => records.OrderBy(r => r.Title).ToList(),
+                "artist" => records.OrderBy(r => r.Artist).ToList(),
+                "duration" => records.OrderBy(r => r.Duration).ToList(),
+                "publicationyear" => records.OrderBy(r => r.PublicationYear).ToList(),
+                _ => records.ToList()
+            };
         }
 
         public MusicRecord? GetById(int id)
