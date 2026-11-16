@@ -2,12 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using REST_music_api.Repository;
 using REST_music_api.Model;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace REST_music_api.Controllers
 {
-    [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
-  
+    [Route("api/[controller]")]
+    
     public class MusicRecordsController : ControllerBase
     {
         private readonly MusicRecordRepository _repo;
@@ -19,6 +21,8 @@ namespace REST_music_api.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IEnumerable<MusicRecord> Get(
             [FromQuery] string? title = null,
             [FromQuery] string? artist = null,
