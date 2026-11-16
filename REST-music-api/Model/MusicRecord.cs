@@ -8,7 +8,14 @@
         public int Duration { get; set; }
         public int PublicationYear { get; set; }
 
-       
+        public MusicRecord()
+        {
+            Title = string.Empty;
+            Artist = string.Empty;
+            Duration = 0;
+            PublicationYear = 0;
+        }
+
         public MusicRecord(string title, string artist, int duration, int publicationYear)
         {
             Title = title;
