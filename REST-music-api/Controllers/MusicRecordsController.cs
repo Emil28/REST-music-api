@@ -91,12 +91,6 @@ namespace REST_music_api.Controllers
             }
 
             return Ok(updated);
-                sortBy: sortBy,
-                artist: artist,
-                id: id,
-                duration: duration,
-                publicationYear: publicationYear);
         }
-    }
-    
+    }   
 }

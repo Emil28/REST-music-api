@@ -104,59 +104,60 @@ namespace REST_music_api.Repository
                 "publicationyear" => records.OrderBy(r => r.PublicationYear).ToList(),
                 _ => records.ToList()
             };
-        public List<MusicRecord> GetAll(
-            string? title = null,
-            string? sortBy = null,
-            string? artist = null,
-            int? id = null,
-            int? duration = null,
-            int? publicationYear = null)
-        {
-            IEnumerable<MusicRecord> records = _records;
-
-            if (!string.IsNullOrWhiteSpace(title))
-            {
-                records = records.Where(r => r.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
-            }
-            if (!string.IsNullOrWhiteSpace(artist))
-            {
-                records = records.Where(r => r.Artist.Contains(artist, StringComparison.OrdinalIgnoreCase));
-            }
-            if (id.HasValue)
-            {
-                records = records.Where(r => r.Id == id.Value);
-            }
-            if (duration.HasValue)
-            {
-                records = records.Where(r => r.Duration == duration.Value);
-            }
-            if (publicationYear.HasValue)
-            {
-                records = records.Where(r => r.PublicationYear == publicationYear.Value);
-            }
-
-            var recordsCopy = records.ToList();
-            switch (sortBy?.ToLowerInvariant())
-            {
-                case "id":
-                    recordsCopy = recordsCopy.OrderBy(r => r.Id).ToList();
-                    break;
-                case "title":
-                    recordsCopy = recordsCopy.OrderBy(r => r.Title).ToList();
-                    break;
-                case "artist":
-                    recordsCopy = recordsCopy.OrderBy(r => r.Artist).ToList();
-                    break;
-                case "duration":
-                    recordsCopy = recordsCopy.OrderBy(r => r.Duration).ToList();
-                    break;
-                case "publicationyear":
-                    recordsCopy = recordsCopy.OrderBy(r => r.PublicationYear).ToList();
-                    break;
-            }
-
-            return recordsCopy;
         }
+        //public List<MusicRecord> GetAll(
+        //    string? title = null,
+        //    string? sortBy = null,
+        //    string? artist = null,
+        //    int? id = null,
+        //    int? duration = null,
+        //    int? publicationYear = null)
+        //{
+        //    IEnumerable<MusicRecord> records = _records;
+
+        //    if (!string.IsNullOrWhiteSpace(title))
+        //    {
+        //        records = records.Where(r => r.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+        //    }
+        //    if (!string.IsNullOrWhiteSpace(artist))
+        //    {
+        //        records = records.Where(r => r.Artist.Contains(artist, StringComparison.OrdinalIgnoreCase));
+        //    }
+        //    if (id.HasValue)
+        //    {
+        //        records = records.Where(r => r.Id == id.Value);
+        //    }
+        //    if (duration.HasValue)
+        //    {
+        //        records = records.Where(r => r.Duration == duration.Value);
+        //    }
+        //    if (publicationYear.HasValue)
+        //    {
+        //        records = records.Where(r => r.PublicationYear == publicationYear.Value);
+        //    }
+
+        //    var recordsCopy = records.ToList();
+        //    switch (sortBy?.ToLowerInvariant())
+        //    {
+        //        case "id":
+        //            recordsCopy = recordsCopy.OrderBy(r => r.Id).ToList();
+        //            break;
+        //        case "title":
+        //            recordsCopy = recordsCopy.OrderBy(r => r.Title).ToList();
+        //            break;
+        //        case "artist":
+        //            recordsCopy = recordsCopy.OrderBy(r => r.Artist).ToList();
+        //            break;
+        //        case "duration":
+        //            recordsCopy = recordsCopy.OrderBy(r => r.Duration).ToList();
+        //            break;
+        //        case "publicationyear":
+        //            recordsCopy = recordsCopy.OrderBy(r => r.PublicationYear).ToList();
+        //            break;
+        //    }
+
+        //    return recordsCopy;
+        //}
 
         public MusicRecord? GetById(int id)
         {
