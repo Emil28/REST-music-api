@@ -5,64 +5,105 @@ namespace REST_music_api.Repository
 {
     public class MusicRecordRepository
     {
-        private static int _nextInt = 1;
+        private int _nextInt = 1;
 
-        private static readonly List<MusicRecord> _records = new List<MusicRecord>
-        {
-            new MusicRecord
-            {
-                Id = _nextInt++,
-                Title = "Blinding Lights",
-                Artist = "The Weeknd",
-                Duration = 3,
-                PublicationYear = 2019
-            },
-            new MusicRecord
-            {
-                Id = _nextInt++,
-                Title = "Levitating",
-                Artist = "Dua Lipa",
-                Duration = 3,
-                PublicationYear = 2020
-            },
-            new MusicRecord
-            {
-                Id = _nextInt++,
-                Title = "Levitating",
-                Artist = "Dua Lipa",
-                Duration = 3,
-                PublicationYear = 2020
-            },
-            new MusicRecord
-            {
-                Id = _nextInt++,
-                Title = "Shape of You",
-                Artist = "Ed Sheeran",
-                Duration = 3,
-                PublicationYear = 2017
-            },
-            new MusicRecord
-            {
-                Id = _nextInt++,
-                Title = "Bad Guy",
-                Artist = "Billie Eilish",
-                Duration = 3,
-                PublicationYear = 2019
-            },
-            new MusicRecord
-            {
-                Id = _nextInt++,
-                Title = "As It Was",
-                Artist = "Harry Styles",
-                Duration = 2,
-                PublicationYear = 2022
-            }
-        };
+        private readonly List<MusicRecord> _records;
 
         public MusicRecordRepository()
         {
+            _records = new List<MusicRecord>
+            {
+                new MusicRecord
+                {
+                    Id = _nextInt++,
+                    Title = "Blinding Lights",
+                    Artist = "The Weeknd",
+                    Duration = 420,
+                    PublicationYear = 2019
+                },
+                new MusicRecord
+                {
+                    Id = _nextInt++,
+                    Title = "Levitating",
+                    Artist = "Dua Lipa",
+                    Duration = 200,
+                    PublicationYear = 2020
+                },
+                new MusicRecord
+                {
+                    Id = _nextInt++,
+                    Title = "Levitating",
+                    Artist = "Dua Lipa",
+                    Duration = 4724,
+                    PublicationYear = 2020
+                },
+                new MusicRecord
+                {
+                    Id = _nextInt++,
+                    Title = "Shape of You",
+                    Artist = "Ed Sheeran",
+                    Duration = 69,
+                    PublicationYear = 2017
+                },
+                new MusicRecord
+                {
+                    Id = _nextInt++,
+                    Title = "Bad Guy",
+                    Artist = "Billie Eilish",
+                    Duration = 194,
+                    PublicationYear = 2019
+                },
+                new MusicRecord
+                {
+                    Id = _nextInt++,
+                    Title = "As It Was",
+                    Artist = "Harry Styles",
+                    Duration = 242,
+                    PublicationYear = 2022
+                }
+            };
         }
 
+        public List<MusicRecord> GetAll(
+            string? title = null,
+            string? artist = null,
+            int? id = null,
+            int? duration = null,
+            int? publicationYear = null,
+            string? sortBy = null)
+        {
+            IEnumerable<MusicRecord> records = _records;
+
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                records = records.Where(r => r.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+            }
+            if (!string.IsNullOrWhiteSpace(artist))
+            {
+                records = records.Where(r => r.Artist.Contains(artist, StringComparison.OrdinalIgnoreCase));
+            }
+            if (id.HasValue)
+            {
+                records = records.Where(r => r.Id == id.Value);
+            }
+            if (duration.HasValue)
+            {
+                records = records.Where(r => r.Duration == duration.Value);
+            }
+            if (publicationYear.HasValue)
+            {
+                records = records.Where(r => r.PublicationYear == publicationYear.Value);
+            }
+
+            return sortBy?.ToLowerInvariant() switch
+            {
+                "id" => records.OrderBy(r => r.Id).ToList(),
+                "title" => records.OrderBy(r => r.Title).ToList(),
+                "artist" => records.OrderBy(r => r.Artist).ToList(),
+                "duration" => records.OrderBy(r => r.Duration).ToList(),
+                "publicationyear" => records.OrderBy(r => r.PublicationYear).ToList(),
+                _ => records.ToList()
+            };
         public List<MusicRecord> GetAll(
             string? title = null,
             string? sortBy = null,
