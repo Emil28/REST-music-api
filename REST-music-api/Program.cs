@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
+using REST_music_api.Data;
 using REST_music_api.Repository;
 using System.Text;
 
@@ -8,6 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSingleton<MusicRecordRepository>(new MusicRecordRepository());
+var musicRecordsConnectionString = builder.Configuration.GetConnectionString("MusicRecords")
+    ?? throw new InvalidOperationException(
+        "Connection string 'MusicRecords' is missing. Configure ConnectionStrings:MusicRecords.");
+builder.Services.AddDbContext<MusicRecordsDbContext>(options =>
+    options.UseSqlServer(musicRecordsConnectionString));
+builder.Services.AddScoped<SqlMusicRecordRepository>();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //builder.Services.AddOpenApi();
@@ -51,7 +59,18 @@ builder.Services.AddSwaggerGen(opt =>
 
 // User story 3 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
-var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
+var jwtKey = jwtSettings["Key"];
+var jwtIssuer = jwtSettings["Issuer"];
+var jwtAudience = jwtSettings["Audience"];
+if (string.IsNullOrWhiteSpace(jwtKey) ||
+    string.IsNullOrWhiteSpace(jwtIssuer) ||
+    string.IsNullOrWhiteSpace(jwtAudience))
+{
+    throw new InvalidOperationException(
+        "JWT settings are missing. Configure Jwt:Key, Jwt:Issuer, and Jwt:Audience.");
+}
+
+var key = Encoding.ASCII.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -66,8 +85,8 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
+        ValidIssuer = jwtIssuer,
+        ValidAudience = jwtAudience,
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });

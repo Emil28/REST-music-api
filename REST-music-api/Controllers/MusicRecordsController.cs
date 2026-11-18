@@ -12,9 +12,9 @@ namespace REST_music_api.Controllers
     
     public class MusicRecordsController : ControllerBase
     {
-        private readonly MusicRecordRepository _repo;
+        private readonly SqlMusicRecordRepository _repo;
 
-        public MusicRecordsController(MusicRecordRepository repo)
+        public MusicRecordsController(SqlMusicRecordRepository repo)
         {
             _repo = repo;
         }
@@ -23,7 +23,7 @@ namespace REST_music_api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IEnumerable<MusicRecord> Get(
+        public async Task<ActionResult<IEnumerable<MusicRecord>>> Get(
             [FromQuery] string? title = null,
             [FromQuery] string? artist = null,
             [FromQuery] int? id = null,
@@ -31,19 +31,20 @@ namespace REST_music_api.Controllers
             [FromQuery] int? publicationYear = null,
             [FromQuery] string? sortBy = null)
         {
-            return _repo.GetAll(
+            var records = await _repo.GetAllAsync(
                 title: title,
                 artist: artist,
                 id: id,
                 duration: duration,
                 publicationYear: publicationYear,
                 sortBy: sortBy);
+            return Ok(records);
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(MusicRecord), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<MusicRecord> Add([FromBody] MusicRecord record)
+        public async Task<ActionResult<MusicRecord>> Add([FromBody] MusicRecord record)
         {
             if (string.IsNullOrWhiteSpace(record.Title) ||
                 string.IsNullOrWhiteSpace(record.Artist) ||
@@ -53,16 +54,16 @@ namespace REST_music_api.Controllers
                 return BadRequest();
             }
 
-            var added = _repo.Add(record);
+            var added = await _repo.AddAsync(record);
             return StatusCode(StatusCodes.Status201Created, added);
         }
 
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (_repo.Delete(id) is null)
+            if (await _repo.DeleteAsync(id) is null)
             {
                 return NotFound();
             }
@@ -74,7 +75,7 @@ namespace REST_music_api.Controllers
         [ProducesResponseType(typeof(MusicRecord), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<MusicRecord> Update(int id, [FromBody] MusicRecord record)
+        public async Task<ActionResult<MusicRecord>> Update(int id, [FromBody] MusicRecord record)
         {
             if (string.IsNullOrWhiteSpace(record.Title) ||
                 string.IsNullOrWhiteSpace(record.Artist) ||
@@ -84,7 +85,7 @@ namespace REST_music_api.Controllers
                 return BadRequest();
             }
 
-            var updated = _repo.Update(id, record);
+            var updated = await _repo.UpdateAsync(id, record);
             if (updated is null)
             {
                 return NotFound();
