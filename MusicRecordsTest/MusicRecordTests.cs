@@ -9,39 +9,7 @@ namespace MusicRecordTest
         public void GetAll_ReturnsAllRecords_WhenTitleIsNull()
         {
             var repo = new MusicRecordRepository();
-            Assert.HasCount(6, repo.GetAll());
-        }
-
-        [TestMethod]
-        public void GetAll_FiltersByTitle()
-        {
-            var repo = new MusicRecordRepository();
-
-            Assert.HasCount(1, repo.GetAll(title: "Blinding"));
-        }
-
-        [TestMethod]
-        public void GetAll_FiltersByArtistIgnoringCase()
-        {
-            var repo = new MusicRecordRepository();
-
-            Assert.HasCount(1, repo.GetAll(artist: "weeknd"));
-        }
-
-        [TestMethod]
-        public void GetAll_FiltersByIdDurationAndPublicationYear()
-        {
-            var repo = new MusicRecordRepository();
-
-            Assert.HasCount(1, repo.GetAll(id: 1, duration: 3, publicationYear: 2019));
-        }
-
-        [TestMethod]
-        public void GetAll_CombinesTitleAndArtistFilters()
-        {
-            var repo = new MusicRecordRepository();
-
-            Assert.HasCount(0, repo.GetAll(title: "Blinding", artist: "Dua Lipa"));
+            Assert.AreEqual(6, repo.GetAll().Count);
         }
 
         [TestMethod]
@@ -58,6 +26,38 @@ namespace MusicRecordTest
             var repo = new MusicRecordRepository();
 
             Assert.AreEqual(1, repo.GetAll(artist: "weeknd").Count);
+        }
+
+        [TestMethod]
+        public void GetAll_FiltersByIdDurationAndPublicationYear()
+        {
+            var repo = new MusicRecordRepository();
+
+            Assert.AreEqual(1, repo.GetAll(id: 1, duration: 420, publicationYear: 2019).Count);
+        }
+
+        [TestMethod]
+        public void GetAll_FiltersByDuration()
+        {
+            var repo = new MusicRecordRepository();
+
+            Assert.AreEqual(1, repo.GetAll(duration: 420).Count);
+        }
+
+        [TestMethod]
+        public void GetAll_FiltersByPublicationYear()
+        {
+            var repo = new MusicRecordRepository();
+
+            Assert.AreEqual(1, repo.GetAll(publicationYear: 2022).Count);
+        }
+
+        [TestMethod]
+        public void GetAll_CombinesTitleAndArtistFilters()
+        {
+            var repo = new MusicRecordRepository();
+
+            Assert.AreEqual(0, repo.GetAll(title: "Blinding", artist: "Dua Lipa").Count);
         }
 
         [TestMethod]
